@@ -172,6 +172,9 @@
     height:220px; position:relative; overflow:hidden;
     display:flex; align-items:flex-end; padding:20px;
   }
+  .folio-thumb img{
+    position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  }
   .folio-thumb::after{
     content:""; position:absolute; inset:0; background:rgba(15,20,19,0.18);
   }
@@ -320,14 +323,15 @@
 
     <div class="folio-grid">
 
-      <a class="folio-card reveal" href="#" target="_blank" rel="noopener">
-        <div class="folio-thumb" style="background:linear-gradient(135deg,var(--teal),var(--teal-deep));">
+      <a class="folio-card reveal" href="https://sipatuhrubara.freedev.app" target="_blank" rel="noopener">
+        <div class="folio-thumb">
+          <img src="img/01_sipatuh.png" alt="SIPATUH Rubara">
           <span class="num">CASE 01</span>
         </div>
         <div class="folio-body">
-          <span class="folio-cat">Landing Page · Produk Digital</span>
-          <h3>CV Ngasal — Landing Page Penjualan Produk</h3>
-          <p class="res">Landing page fokus konversi untuk produk digital, dirancang dengan alur singkat dari headline sampai tombol checkout.</p>
+          <span class="folio-cat">Portal Berita · Custom CMS</span>
+          <h3>SIPATUH Rubara</h3>
+          <p class="res">Websiste portal berita Instansi</p>
           <span class="folio-more">Lihat studi kasus →</span>
         </div>
       </a>
