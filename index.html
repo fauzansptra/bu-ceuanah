@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fawaz Digital — Jasa Pembuatan Website, Banjarbaru</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23161f1d'/%3E%3Ccircle cx='32' cy='32' r='18' fill='%231f5c56'/%3E%3Cpath d='M22 38l8-18h4l-8 18z' fill='%23e9e7de'/%3E%3C/svg%3E">
 <style>
   :root{
     --ink:#161f1d;
@@ -146,6 +147,22 @@
   .pkg:hover{ background:var(--paper-dim); }
   .pkg .tier{ font-size:12px; font-weight:700; opacity:0.55; margin-bottom:18px; }
   .pkg h3{ font-size:26px; margin-bottom:10px; }
+  .pkg .price{ font-size:15px; font-weight:800; color:var(--teal-deep); margin-bottom:16px; }
+  .pkg .price-promo{
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+    margin-bottom:16px;
+    font-size:15px;
+    font-weight:800;
+    color:var(--teal-deep);
+  }
+  .pkg .price-old{
+    font-size:13px;
+    font-weight:700;
+    opacity:0.65;
+    text-decoration:line-through;
+  }
   .pkg .desc{ font-size:14px; opacity:0.75; line-height:1.6; margin-bottom:22px; flex-grow:1; }
   .pkg ul{ list-style:none; padding:0; margin:0 0 26px; font-size:13.5px; }
   .pkg li{ padding:8px 0; border-top:1px solid var(--line); opacity:0.85; }
@@ -157,6 +174,9 @@
   .pkg-link:hover{ color:var(--clay); }
   .pkg.featured{ background:var(--ink); color:var(--paper); }
   .pkg.featured .desc{ opacity:0.75; }
+  .pkg.featured .price,
+  .pkg.featured .price-promo{ color:var(--paper); }
+  .pkg.featured .price-old{ opacity:0.75; }
   .pkg.featured li{ border-top-color:rgba(233,231,222,0.16); opacity:0.85; }
   .pkg.featured .pkg-link{ color:#e0b874; }
   .pkg.featured:hover{ background:var(--teal-deep); }
@@ -231,6 +251,39 @@
 
   .reveal{ opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease; }
   .reveal.in{ opacity:1; transform:translateY(0); }
+
+  .modal{
+    position:fixed;
+    inset:0;
+    z-index:100;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+    background:rgba(16,22,20,0.66);
+  }
+  .modal.open{ display:flex; }
+  .modal-card{
+    width:min(100%, 460px);
+    background:var(--paper);
+    color:var(--ink);
+    box-shadow:0 28px 90px rgba(0,0,0,0.35);
+    border:1px solid rgba(255,255,255,0.14);
+    padding:28px;
+  }
+  .modal-card h3{ font-size:28px; margin-bottom:12px; }
+  .modal-card p{ margin:0 0 22px; font-size:15px; line-height:1.7; opacity:0.8; }
+  .modal-actions{ display:flex; gap:12px; flex-wrap:wrap; }
+  .modal-close{
+    margin-left:auto;
+    border:1px solid var(--line);
+    background:transparent;
+    color:var(--ink);
+    padding:12px 16px;
+    font:inherit;
+    font-weight:700;
+    cursor:pointer;
+  }
 </style>
 </head>
 <body>
@@ -242,7 +295,7 @@
       <a href="#layanan">Layanan</a>
       <a href="#portofolio">Portofolio</a>
       <a href="#proses">Proses</a>
-      <a href="https://wa.me/6281234567890?text=Halo%20Fawaz%20Digital%2C%20saya%20mau%20tanya-tanya" target="_blank" rel="noopener" class="nav-cta">Chat WhatsApp</a>
+      <a href="#" data-wa-message="Halo Fawaz Digital, saya mau tanya-tanya" target="_blank" rel="noopener" class="nav-cta js-wa-link">Chat WhatsApp</a>
     </nav>
   </div>
 </header>
@@ -253,7 +306,7 @@
     <h1>Jasa Pembuatan Website untuk Bisnis dan Brand Lokal di Kalimantan Selatan</h1>
     <p class="lede">Fawaz Digital menyediakan jasa pembuatan website untuk UMKM, brand lokal, dan personal brand di Kalimantan Selatan. Layanan mencakup landing page untuk kebutuhan promosi produk, hingga website dengan sistem pendukung seperti reservasi, katalog produk, atau dashboard admin. Setiap proyek disesuaikan dengan kebutuhan dan anggaran klien. Proses pengerjaan dimulai dari diskusi kebutuhan awal hingga website siap digunakan.</p>
     <div class="hero-cta">
-      <a class="btn btn-solid" href="https://wa.me/6287880296228?text=Halo%20Fawaz%20Digital%2C%20saya%20mau%20diskusi%20kebutuhan%20website" target="_blank" rel="noopener">Diskusi via WhatsApp →</a>
+      <a class="btn btn-solid js-wa-link" href="#" data-wa-message="Halo Fawaz Digital, saya mau diskusi kebutuhan website" target="_blank" rel="noopener">Diskusi via WhatsApp →</a>
       <a class="btn btn-ghost" href="#portofolio">Lihat Portofolio</a>
     </div>
     <div class="cred-line">
@@ -280,18 +333,20 @@
       <div class="pkg reveal">
         <span class="tier">Paket 01</span>
         <h3>Landing Page</h3>
+        <div class="price-promo"><span>Rp 800k</span><span class="price-old">Rp 2 jt</span></div>
         <p class="desc">Satu halaman fokus konversi — cocok untuk produk, campaign, atau bisnis yang ingin memiliki kehadiran online pertama.</p>
         <ul>
           <li>Satu halaman, desain custom</li>
           <li>Optimasi mobile &amp; kecepatan load</li>
           <li>Terhubung ke WhatsApp/form</li>
         </ul>
-        <a class="pkg-link" href="https://wa.me/6281234567890?text=Halo%2C%20saya%20tertarik%20paket%20Landing" target="_blank" rel="noopener">Pilih Landing →</a>
+        <a class="pkg-link js-wa-link" href="#" data-wa-message="Halo, saya tertarik paket Landing" target="_blank" rel="noopener">Pilih Landing →</a>
       </div>
 
       <div class="pkg featured reveal">
         <span class="tier">Paket 02</span>
         <h3>Profil Perusahaan</h3>
+        <div class="price">Rp 2,5 jt</div>
         <p class="desc">Website multi-halaman untuk brand yang mau menampilkan informasi lengkap. Seperti tentang, layanan, portofolio, sampai kontak.</p>
         <ul>
           <li>Semua yang ada di Landing Page</li>
@@ -299,12 +354,13 @@
           <li>SEO dasar &amp; Google Maps</li>
           <li>Panduan update konten sendiri</li>
         </ul>
-        <a class="pkg-link" href="https://wa.me/6281234567890?text=Halo%2C%20saya%20tertarik%20paket%20Profil" target="_blank" rel="noopener">Pilih Profil →</a>
+        <a class="pkg-link js-wa-link" href="#" data-wa-message="Halo, saya tertarik paket Profil" target="_blank" rel="noopener">Pilih Profil →</a>
       </div>
 
       <div class="pkg reveal">
         <span class="tier">Paket 03</span>
         <h3>Kustom</h3>
+        <div class="price">Start from 5 jt</div>
         <p class="desc">Untuk kebutuhan aplikasi web kompleks seperti booking, database, dashboard, atau integrasi khusus.</p>
         <ul>
           <li>Semua yang ada di Profil</li>
@@ -312,7 +368,7 @@
           <li>Fitur custom (login, form dinamis, dll)</li>
           <li>Pendampingan pasca-launch</li>
         </ul>
-        <a class="pkg-link" href="https://wa.me/6281234567890?text=Halo%2C%20saya%20tertarik%20paket%20Kustom" target="_blank" rel="noopener">Pilih Kustom →</a>
+        <a class="pkg-link js-wa-link" href="#" data-wa-message="Halo, saya tertarik paket Kustom" target="_blank" rel="noopener">Pilih Kustom →</a>
       </div>
     </div>
   </div>
@@ -356,7 +412,7 @@
         </div>
       </a>
 
-      <a class="folio-card reveal" href="#" target="_blank" rel="noopener">
+      <a class="folio-card reveal demo-card" href="#" data-demo-title="Warehouse Management System" data-demo-message="Demo portfolio ini belum tersedia nih. Chat WhatsApp untuk minta detailnya ya.">
         <div class="folio-thumb">
           <img src="img/03.png" alt="Warehouse Management System">
           <span class="num">CASE 03</span>
@@ -369,7 +425,7 @@
         </div>
       </a>
 
-      <a class="folio-card reveal" href="#" target="_blank" rel="noopener">
+      <a class="folio-card reveal demo-card" href="#" data-demo-title="Sistem Retribusi Daerah" data-demo-message="Demo portfolio ini belum tersedia nih. Chat WhatsApp untuk minta detailnya ya.">
         <div class="folio-thumb">
           <img src="img/04.png" alt="Warehouse Management System">
           <span class="num">CASE 04</span>
@@ -457,7 +513,7 @@
     <div class="foot-head">
       <h2>Siap benahin kehadiran online mu bulan ini?</h2>
         <div class="foot-links">
-        <a class="whatsapp-btn" href="https://wa.me/6287880296228?text=Halo%20Fawaz%20Digital" target="_blank" rel="noopener" aria-label="Chat via WhatsApp">
+        <a class="whatsapp-btn js-wa-link" href="#" data-wa-message="Halo Fawaz Digital" target="_blank" rel="noopener" aria-label="Chat via WhatsApp">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
             <path fill="#fff" d="M20.5 3.5A11.9 11.9 0 0012 0C5.4 0 .1 5.4.1 12 0 14.3.6 16.5 1.7 18.3L0 24l6.2-1.6A11.9 11.9 0 0012 24c6.6 0 12-5.4 12-12 0-3.2-1.3-6.2-3.5-8.5zM17 15.1c-.3-.15-1.8-.9-2.07-1-.27-.1-.45-.15-.66.15-.2.3-.77.97-.95 1.18-.17.2-.35.22-.65.07-1.77-.88-2.93-1.98-4.13-3.9-.3-.45.31-.42.9-1.39.1-.16.05-.4-.03-.56-.08-.15-.67-1.6-.92-2.2-.24-.58-.48-.5-.66-.51-.17-.01-.37-.01-.57-.01-.2 0-.52.08-.79.37-.27.29-1.03 1.02-1.03 2.48 0 1.45 1.06 2.87 1.2 3.07.15.2 2.08 3.36 5.05 4.58 3.02 1.22 3.02.81 3.56.76.54-.05 1.76-.72 2.01-1.42.25-.69.25-1.28.17-1.4-.08-.13-.27-.21-.57-.36z"/>
           </svg>
@@ -474,12 +530,70 @@
   </div>
 </footer>
 
+<div class="modal" id="portfolioModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="portfolioModalTitle">
+  <div class="modal-card">
+    <div class="modal-actions" style="justify-content:flex-end; margin-bottom:18px;">
+      <button class="modal-close" type="button" data-modal-close>Tutup</button>
+    </div>
+    <h3 id="portfolioModalTitle">Demo belum tersedia</h3>
+    <p id="portfolioModalMessage">Demo belum tersedia nih. Chat WhatsApp untuk minta detailnya ya.</p>
+    <div class="modal-actions">
+      <a class="btn btn-solid js-wa-link" id="portfolioModalCta" href="#" data-wa-message="Halo Fawaz Digital, saya mau tanya demo portfolio" target="_blank" rel="noopener">Chat WhatsApp →</a>
+    </div>
+  </div>
+</div>
+
 <script>
   const els = document.querySelectorAll('.reveal');
   const io = new IntersectionObserver((entries)=>{
     entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
   }, { threshold: 0.12 });
   els.forEach(el=>io.observe(el));
+
+  const WHATSAPP_NUMBER = '6287880296228';
+  const buildWhatsAppUrl = (message = '') => {
+    const base = `https://wa.me/${WHATSAPP_NUMBER}`;
+    return message ? `${base}?text=${encodeURIComponent(message)}` : base;
+  };
+
+  document.querySelectorAll('.js-wa-link').forEach((link) => {
+    link.href = buildWhatsAppUrl(link.dataset.waMessage || '');
+  });
+
+  const modal = document.getElementById('portfolioModal');
+  const modalTitle = document.getElementById('portfolioModalTitle');
+  const modalMessage = document.getElementById('portfolioModalMessage');
+  const modalCta = document.getElementById('portfolioModalCta');
+
+  function openModal(title, message) {
+    modalTitle.textContent = title || 'Demo belum tersedia';
+    modalMessage.textContent = message || 'Demo belum tersedia nih. Chat WhatsApp untuk minta detailnya ya.';
+    modalCta.href = buildWhatsAppUrl('Halo Fawaz Digital, saya mau tanya demo portfolio');
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+  }
+
+  function closeModal() {
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+  }
+
+  document.querySelectorAll('.demo-card').forEach((card) => {
+    card.addEventListener('click', (event) => {
+      event.preventDefault();
+      openModal(card.dataset.demoTitle, card.dataset.demoMessage);
+    });
+  });
+
+  modal.addEventListener('click', (event) => {
+    if (event.target === modal) closeModal();
+  });
+
+  document.querySelector('[data-modal-close]').addEventListener('click', closeModal);
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && modal.classList.contains('open')) closeModal();
+  });
 </script>
 
 </body>
